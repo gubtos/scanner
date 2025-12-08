@@ -627,8 +627,8 @@ const onLoad = async () => {
         // Convert to JPG blob
         canvas.toBlob((blob) => {
           if (blob) {
-            const currentTime = new Date().toISOString().split('.')[0].replace(/[:.]/g, '-');
-            const filename = pages.length === 1 ? `${currentTime}_scan.jpg` : `${currentTime}_scan.jpg`;
+            const currentTime = dateToLocalISO(new Date()).split('.')[0].replace(/[:.]/g, '-');
+            const filename = pages.length === 1 ? `${currentTime}.jpg` : `${currentTime}.jpg`;
             download(blob, filename);
           }
         }, 'image/jpeg', 0.9);
@@ -659,6 +659,10 @@ const onLoad = async () => {
       }
     }
   }
+}
+
+const dateToLocalISO = (date: Date) => {
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().slice(0, -1); // Remove the last 'Z' indicating local time
 }
 
 onLoad();
